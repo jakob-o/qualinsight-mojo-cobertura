@@ -19,6 +19,8 @@
  */
 package com.qualinsight.mojo.cobertura.core.reporting;
 
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -34,9 +36,23 @@ public class UTCoverageReportMojo extends AbstractCleaningReportMojo {
     @Parameter(defaultValue = "${project.build.directory}/cobertura/ut/", readonly = true)
     private String coverageReportPath;
 
+    /**
+     * Skips the tests and therefore the execution of this mojo.
+     */
+    @Parameter(property = "skipTests", defaultValue = "${skipTests}")
+    private boolean skipTests;
+    
     @Override
     String coverageReportPath() {
         return this.coverageReportPath;
     }
 
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
+    	if (skipTests) {
+    		getLog().info("Tests are skipped, skipping ut coverage reporting");
+    		return;
+    	}
+    	super.execute();
+    }
 }

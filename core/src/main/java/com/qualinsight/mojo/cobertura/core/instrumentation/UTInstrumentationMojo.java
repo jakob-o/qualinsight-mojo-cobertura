@@ -19,8 +19,11 @@
  */
 package com.qualinsight.mojo.cobertura.core.instrumentation;
 
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 
 /**
@@ -34,4 +37,19 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
     requiresDependencyResolution = ResolutionScope.COMPILE
 )
 public class UTInstrumentationMojo extends AbstractInstrumentationMojo {
+
+    /**
+     * Skips the tests and therefore the execution of this mojo.
+     */
+    @Parameter(property = "skipTests", defaultValue = "${skipTests}")
+    private boolean skipTests;
+    
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
+    	if (skipTests) {
+    		getLog().info("Tests are skipped, skipping ut instrumentation");
+    		return;
+    	}
+    	super.execute();
+    }
 }
