@@ -48,7 +48,7 @@ public class OverallCoverageReportMojo extends AbstractReportMojo {
     private String overallCoverageReportPath;
 
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void doExecute() throws MojoExecutionException, MojoFailureException {
         final File sourcesDirectory = new File(sourcesPath());
         final File overallCoverageDirectory = new File(coverageReportPath());
         final File utCoverageDataFile = new File(this.utCoverageDataFileLocation);

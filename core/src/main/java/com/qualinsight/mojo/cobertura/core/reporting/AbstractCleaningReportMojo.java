@@ -38,22 +38,8 @@ public abstract class AbstractCleaningReportMojo extends AbstractReportMojo {
     @Parameter(defaultValue = "${project.basedir}/", required = false)
     private String dataFilePath;
 
-    /**
-     * Skips the tests and therefore the execution of this mojo.
-     */
-    @Parameter(property = "skipTests", defaultValue = "${skipTests}")
-    private boolean skipTests;
-    
-    protected boolean skipExecution() {
-        return skipTests;
-    }
-
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        if (skipExecution()) {
-            getLog().info("Tests are skipped, skipping execution");
-            return;
-        }
+    protected void doExecute() throws MojoExecutionException, MojoFailureException {
         final File dataFile = new File(dataFilePath() + AbstractInstrumentationMojo.DATA_FILE_NAME);
         final File destinationDataFile = new File(coverageReportPath() + AbstractInstrumentationMojo.DATA_FILE_NAME);
         final File sourcesDirectory = new File(sourcesPath());

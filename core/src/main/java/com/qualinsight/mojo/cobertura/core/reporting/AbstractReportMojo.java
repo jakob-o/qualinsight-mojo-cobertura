@@ -30,6 +30,7 @@ import net.sourceforge.cobertura.dsl.ReportFormat;
 import net.sourceforge.cobertura.reporting.Report;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 import com.qualinsight.mojo.cobertura.transformation.CoberturaToSonarQubeCoverageReportConversionProcessingException;
 import com.qualinsight.mojo.cobertura.transformation.CoberturaToSonarQubeCoverageReportConverter;
@@ -65,6 +66,12 @@ public abstract class AbstractReportMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "false", required = false)
     private boolean calculateMethodComplexity;
+
+    /**
+     * Skips the tests and therefore the execution of this mojo.
+     */
+    @Parameter(property = "skipTests", defaultValue = "${skipTests}")
+    private boolean skipTests;
 
     protected void prepareFileSystem(final File destinationDirectory) throws MojoExecutionException {
         getLog().debug("Preparing Cobertura report generation directories");
@@ -161,4 +168,18 @@ public abstract class AbstractReportMojo extends AbstractMojo {
             .build();
     }
 
+    protected boolean skipExecution() {
+        return skipTests;
+    }
+
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        if (skipExecution()) {
+            getLog().info("Tests are skipped, skipping execution");
+            return;
+        }
+        doExecute();
+    }
+    
+    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 }
