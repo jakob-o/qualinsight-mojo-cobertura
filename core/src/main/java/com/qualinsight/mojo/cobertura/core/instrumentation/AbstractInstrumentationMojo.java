@@ -91,8 +91,22 @@ public abstract class AbstractInstrumentationMojo extends AbstractMojo {
     @Parameter(required = false)
     private String excludeClassesRegularExpression;
 
+    /**
+     * Skips the tests and therefore the execution of this mojo.
+     */
+    @Parameter(property = "skipTests", defaultValue = "${skipTests}")
+    private boolean skipTests;
+    
+    protected boolean skipExecution() {
+    	return skipTests;
+    }
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+    	if (skipExecution()) {
+    		getLog().info("Tests are skipped, skipping execution");
+    		return;
+    	}
         final File classesDirectory = new File(this.classesPath);
         final File backupClassesDirectory = new File(this.backupPath);
         final File destinationDirectory = new File(this.instrumentationPath);

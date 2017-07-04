@@ -21,6 +21,7 @@ package com.qualinsight.mojo.cobertura.core.instrumentation;
 
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 
 /**
@@ -34,5 +35,16 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
     requiresDependencyResolution = ResolutionScope.COMPILE
 )
 public class ITInstrumentationMojo extends AbstractInstrumentationMojo {
+
+    /**
+     * Skips integration the tests and therefore the execution of this mojo.
+     */
+	@Parameter(defaultValue = "${skipIntegrationTests}", required = false)
+    private boolean skipIntegrationTests;
+    
+    @Override
+    protected boolean skipExecution() {
+    	return super.skipExecution() || skipIntegrationTests;
+    }
 
 }

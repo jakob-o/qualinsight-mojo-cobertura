@@ -34,6 +34,17 @@ public class ITCoverageReportMojo extends AbstractCleaningReportMojo {
     @Parameter(defaultValue = "${project.build.directory}/cobertura/it/", required = false)
     private String coverageReportPath;
 
+    /**
+     * Skips integration the tests and therefore the execution of this mojo.
+     */
+	@Parameter(defaultValue = "${skipIntegrationTests}", required = false)
+    private boolean skipIntegrationTests;
+    
+    @Override
+    protected boolean skipExecution() {
+    	return super.skipExecution() || skipIntegrationTests;
+    }
+
     @Override
     String coverageReportPath() {
         return this.coverageReportPath;
