@@ -45,15 +45,15 @@ public abstract class AbstractCleaningReportMojo extends AbstractReportMojo {
     private boolean skipTests;
     
     protected boolean skipExecution() {
-    	return skipTests;
+        return skipTests;
     }
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-    	if (skipExecution()) {
-    		getLog().info("Tests are skipped, skipping execution");
-    		return;
-    	}
+        if (skipExecution()) {
+            getLog().info("Tests are skipped, skipping execution");
+            return;
+        }
         final File dataFile = new File(dataFilePath() + AbstractInstrumentationMojo.DATA_FILE_NAME);
         final File destinationDataFile = new File(coverageReportPath() + AbstractInstrumentationMojo.DATA_FILE_NAME);
         final File sourcesDirectory = new File(sourcesPath());

@@ -39,11 +39,11 @@ public class UTInstrumentationMojo extends AbstractInstrumentationMojo {
     /**
      * Skips unit the tests and therefore the execution of this mojo.
      */
-	@Parameter(defaultValue = "${skipUnitTests}", required = false)
+    @Parameter(defaultValue = "${skipUnitTests}", required = false)
     private boolean skipUnitTests;
     
     @Override
     protected boolean skipExecution() {
-    	return super.skipExecution() || skipUnitTests;
+        return super.skipExecution() || skipUnitTests;
     }
 }

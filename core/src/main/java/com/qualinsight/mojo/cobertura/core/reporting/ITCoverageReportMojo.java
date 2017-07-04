@@ -37,12 +37,12 @@ public class ITCoverageReportMojo extends AbstractCleaningReportMojo {
     /**
      * Skips integration the tests and therefore the execution of this mojo.
      */
-	@Parameter(defaultValue = "${skipIntegrationTests}", required = false)
+    @Parameter(defaultValue = "${skipIntegrationTests}", required = false)
     private boolean skipIntegrationTests;
     
     @Override
     protected boolean skipExecution() {
-    	return super.skipExecution() || skipIntegrationTests;
+        return super.skipExecution() || skipIntegrationTests;
     }
 
     @Override

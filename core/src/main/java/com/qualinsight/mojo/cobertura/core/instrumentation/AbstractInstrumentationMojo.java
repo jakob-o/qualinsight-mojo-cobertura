@@ -98,15 +98,15 @@ public abstract class AbstractInstrumentationMojo extends AbstractMojo {
     private boolean skipTests;
     
     protected boolean skipExecution() {
-    	return skipTests;
+        return skipTests;
     }
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-    	if (skipExecution()) {
-    		getLog().info("Tests are skipped, skipping execution");
-    		return;
-    	}
+        if (skipExecution()) {
+            getLog().info("Tests are skipped, skipping execution");
+            return;
+        }
         final File classesDirectory = new File(this.classesPath);
         final File backupClassesDirectory = new File(this.backupPath);
         final File destinationDirectory = new File(this.instrumentationPath);
